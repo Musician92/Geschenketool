@@ -3,16 +3,11 @@ import User from "../mongodb/models/user.js";
 
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import { v2 as cloudinary } from "cloudinary";
+
 
 
 dotenv.config();
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 function parseJwt (token) {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
