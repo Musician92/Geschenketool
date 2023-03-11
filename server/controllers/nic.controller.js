@@ -4,7 +4,7 @@ import User from "../mongodb/models/user.js";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
-import { ConstructionOutlined } from "@mui/icons-material";
+
 
 dotenv.config();
 
