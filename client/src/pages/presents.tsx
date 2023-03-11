@@ -19,8 +19,9 @@ const AllPresents = () => {
     const navigate = useNavigate();
     const { data: user } = useGetIdentity();
     var url = window.location.pathname;
-    var names = url.split("/").pop();    
+    var names = url.split("/").pop();
 
+ 
     const {
         tableQueryResult: { data, isLoading, isError },
         current,
@@ -33,7 +34,9 @@ const AllPresents = () => {
         setFilters,
     } = useTable();
 
+    
     const allPresents = data?.data ?? [];
+   
 
     const currentPrice = sorter.find((item) => item.field === "price")?.order;
 
@@ -46,23 +49,24 @@ const AllPresents = () => {
             "field" in item ? item : [],
         );
 
-        return {
-            title:
-                logicalFilters.find((item) => item.field === "title")?.value ||
-                "",
-            presentType:
-                logicalFilters.find((item) => item.field === "presentType")
-                    ?.value || "",
-            person:
-                logicalFilters.find((item) => item.field === "person")
-                    ?.value || "",
-        };
+   
+    return {
+        title:
+            logicalFilters.find((item) => item.field === "title")?.value ||
+            "",
+        presentType:
+            logicalFilters.find((item) => item.field === "presentType")
+                ?.value || "",
+        person:
+            logicalFilters.find((item) => item.field === "person")
+                ?.value || "",
+    };
     }, [filters]);
 
     if (isLoading) return <Typography>Loading...</Typography>;
     if (isError) return <Typography>Error...</Typography>;
 
-    if (user.name.includes(names))
+    if (user.name.toLowerCase().includes(names))
     {
         return  (
             <Box
@@ -77,10 +81,7 @@ const AllPresents = () => {
             src={StayOut}
             />
         )
-    };
-
-
-    return (
+    } else return (
         <Box>
             <Box mt="20px" sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
                 <Stack direction="column" width="100%">
@@ -115,7 +116,7 @@ const AllPresents = () => {
                                 variant="outlined"
                                 color="info"
                                 placeholder="Nach Namen suchen"
-                                value={currentFilterValues.title}
+                                value={currentFilterValues?.title}
                                 onChange={(e) => {
                                     setFilters([
                                         {
@@ -135,7 +136,7 @@ const AllPresents = () => {
                                 required
                                 inputProps={{ "aria-label": "Without label" }}
                                 defaultValue=""
-                                value={currentFilterValues.presentType}
+                                value={currentFilterValues?.presentType}
                                 onChange={(e) => {
                                     setFilters(
                                         [

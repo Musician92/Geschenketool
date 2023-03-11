@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Refine, AuthProvider } from "@pankod/refine-core";
 import {
     notificationProvider,
@@ -16,6 +14,7 @@ import {
     Palette,
     AccountCircleOutlined,
 } from "@mui/icons-material";
+
 
 import dataProvider from "@pankod/refine-simple-rest";
 import routerProvider from "@pankod/refine-react-router-v6";
@@ -38,6 +37,7 @@ import {
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
+    console.log("test")
     const token = localStorage.getItem("token");
     if (request.headers) {
         request.headers["Authorization"] = `Bearer ${token}`;
@@ -56,7 +56,7 @@ function App() {
         login: async ({ credential }: CredentialResponse) => {
             const profileObj = credential ? parseJwt(credential) : null;
 
-            if (profileObj?.email !== process.env.REACT_APP_TEST_MAIL){
+            if (!process.env.REACT_APP_TEST_MAIL?.includes(profileObj?.email as string)){
                 return Promise.reject();
             } else if (profileObj) {
                 const response = await fetch(
@@ -123,14 +123,14 @@ function App() {
             }
         },
     };
-    
+
     return (
         <ColorModeContextProvider>
             <CssBaseline />
             <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
             <RefineSnackbarProvider>
                 <Refine
-                    dataProvider={dataProvider("http://localhost:8080/api/v1")}
+                    dataProvider={dataProvider("http://localhost:8080/api/v1", axiosInstance)}
                     notificationProvider={notificationProvider}
                     ReadyPage={ReadyPage}
                     catchAll={<ErrorComponent />}

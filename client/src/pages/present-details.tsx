@@ -125,7 +125,7 @@ const PresentDetails = () => {
                                     gap={0.5}
                                 >
                                     <Typography fontSize={14} color="#808191">
-                                        <a href={presentDetails.link}>{presentDetails.link}</a>
+                                        <a href={presentDetails.link} target="_blank">{presentDetails.link}</a>
                                     </Typography>
                                 </Stack>
                             </Box>

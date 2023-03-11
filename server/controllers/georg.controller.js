@@ -14,7 +14,19 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+function parseJwt (token) {
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+}
+
 const getAllPresents = async (req, res) => {
+    
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    
+    const token = req.headers.authorization
+    const profileObj = token?parseJwt(token) : null;
+    console.log(profileObj)
+    console.log(req.headers)
     
     const {
         _end,
@@ -35,6 +47,7 @@ const getAllPresents = async (req, res) => {
         query.title = { $regex: title_like, $options: "i" };
     }
 
+    if (!profileObj?.name.toLowerCase().includes("georg")){
     try {
         const count = await Present.countDocuments({ query });
 
@@ -50,6 +63,7 @@ const getAllPresents = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+}
 };
 
 const getPresentDetail = async (req, res) => {
