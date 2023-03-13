@@ -9,6 +9,7 @@ import {
 } from "@mui/icons-material";
 
 import { CustomButton } from "components";
+import { noParking } from "../assets";
 
 function checkImage(url: any) {
     const img = new Image();
@@ -22,6 +23,8 @@ const PresentDetails = () => {
     const { queryResult } = useShow();
     const { mutate } = useDelete();
     const { id } = useParams();
+    var url = window.location.pathname;
+    var names = url.split('/')[1];
  
     const { data, isLoading, isError } = queryResult;
 
@@ -58,7 +61,22 @@ const PresentDetails = () => {
         }
     };
 
-    return (
+    if (user.name.toLowerCase().includes(names))
+    {
+        return  (
+            <Box
+            component="img"
+            sx={{
+            height: 466,
+            width: 700,
+            maxHeight: { xs: 233, md: 932 },
+            maxWidth: { xs: 350, md: 1040 },
+            }}
+            alt="No Parking"
+            src={noParking}
+            />
+        )
+    } else return (
         <Box
             borderRadius="15px"
             padding="20px"
@@ -125,7 +143,7 @@ const PresentDetails = () => {
                                     gap={0.5}
                                 >
                                     <Typography fontSize={14} color="#808191">
-                                        <a href={presentDetails.link} target="_blank">{presentDetails.link}</a>
+                                        <a href={presentDetails.link} target="_blank" rel="noreferrer">{presentDetails.link}</a>
                                     </Typography>
                                 </Stack>
                             </Box>

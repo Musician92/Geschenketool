@@ -42,6 +42,12 @@ const Home = () => {
                     colors={["#a5a2b0", "#9cdb84"]}
                 />
                 <PieChart
+                    title="Georgs Geschenke"
+                    value={allPresents?.filter(presents=>presents.person.includes("georg")).length}
+                    series={[1-allPresents?.filter(presents=>presents.person.includes("georg")).length/allPresents.length, allPresents?.filter(presents=>presents.person.includes("georg")).length/allPresents.length]}
+                    colors={["#a5a2b0", "#9cdb84"]}
+                />
+                <PieChart
                     title="Nics Geschenke"
                     value={allPresents?.filter(presents=>presents.person.includes("nic")).length}
                     series={[1-allPresents?.filter(presents=>presents.person.includes("nic")).length/allPresents.length, allPresents?.filter(presents=>presents.person.includes("nic")).length/allPresents.length]}

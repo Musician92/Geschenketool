@@ -70,11 +70,10 @@ const Form = ({
                       </FormHelperText>
                       <TextField
                           fullWidth
-                          required
                           id="outlined-basic"
                           color="info"
                           variant="outlined"
-                          {...register("link", { required: true })}
+                          {...register("link", { required: false })}
                       />
                   </FormControl>
                   <FormControl>
@@ -90,7 +89,6 @@ const Form = ({
                       </FormHelperText>
                       <TextareaAutosize
                           minRows={5}
-                          required
                           placeholder="Beschreibung..."
                           color="info"
                           style={{
@@ -102,7 +100,7 @@ const Form = ({
                               padding: 10,
                               color: "#919191",
                           }}
-                          {...register("description", { required: true })}
+                          {...register("description", { required: false })}
                       />
                   </FormControl>
 
@@ -123,11 +121,9 @@ const Form = ({
                               color="info"
                               displayEmpty
                               required
+                              defaultValue={""}
                               inputProps={{ "aria-label": "Without label" }}
-                              defaultValue="aparment"
-                              {...register("presentType", {
-                                  required: true,
-                              })}
+                              {...register("presentType", {required: true})}
                           >
                               <MenuItem value="tech">Tech</MenuItem>
                               <MenuItem value="beauty">Beauty</MenuItem>
@@ -150,12 +146,11 @@ const Form = ({
                           </FormHelperText>
                           <TextField
                               fullWidth
-                              required
                               id="outlined-basic"
                               color="info"
                               type="number"
                               variant="outlined"
-                              {...register("price", { required: true })}
+                              {...register("price", { required: false })}
                           />
                       </FormControl>
                   </Stack>

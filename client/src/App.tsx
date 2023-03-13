@@ -37,7 +37,6 @@ import {
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
-    console.log("test")
     const token = localStorage.getItem("token");
     if (request.headers) {
         request.headers["Authorization"] = `Bearer ${token}`;
@@ -163,7 +162,16 @@ function App() {
                             icon: <LogoDev />,
                         },
                         {
-                            name: "nic",
+                            name: "georg",
+                            options: { label: "Georg" },
+                            list: AllPresents,
+                            show: PresentDetails,
+                            create: CreatePresent,
+                            edit: EditPresent,
+                            icon: <LogoDev />,
+                        },
+                        {
+                            name: "dominic",
                             options: { label: "Nic" },
                             list: AllPresents,
                             show: PresentDetails,

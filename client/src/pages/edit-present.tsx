@@ -6,7 +6,8 @@ import Form from "components/common/Form";
 
 
 const CreatePresent = () => {
-    const currentLocation = window.location;
+    var url = window.location.pathname;
+    var names = url.split('/')[1];
     const { data: user } = useGetIdentity();
     const {
         refineCore: { onFinish, formLoading },
@@ -19,7 +20,7 @@ const CreatePresent = () => {
         await onFinish({
             ...data,
             email: user.email,
-            person: currentLocation.pathname.split('/')[1],
+            person: names,
         });
     };
 

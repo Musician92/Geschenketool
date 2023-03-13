@@ -7,8 +7,21 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+function parseJwt (token) {
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+}
 
 const getAllPresents = async (req, res) => {
+
+    const token = req.headers.authorization
+    const profileObj = token ? parseJwt(token) : null;
+    console.log(profileObj)
+
+
+    if (!profileObj?.name){
+        req.status(401).json({ message: "Not Authorized" })
+        return
+    }
     
     const {
         _end,
@@ -19,7 +32,11 @@ const getAllPresents = async (req, res) => {
         presentType = "",
     } = req.query;
 
+    
     const query = {};
+
+    query.person = { $ne: profileObj.given_name.toLowerCase() };
+  
 
     if (presentType !== "") {
         query.presentType = presentType;
@@ -29,14 +46,14 @@ const getAllPresents = async (req, res) => {
         query.title = { $regex: title_like, $options: "i" };
     }
 
+
     try {
         const count = await Present.countDocuments({ query });
-
+        
         const presents = await Present.find(query)
             .limit(_end)
             .skip(_start)
             .sort({ [_sort]: _order });
-
         res.header("x-total-count", count);
         res.header("Access-Control-Expose-Headers", "x-total-count");
 
@@ -44,9 +61,20 @@ const getAllPresents = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+
+    };
 
 const getPresentDetail = async (req, res) => {
+
+    const token = req.headers.authorization
+    const profileObj = token ? parseJwt(token) : null;
+
+    if (!profileObj?.name){
+        req.status(401).json({ message: "Not Authorized" })
+        return
+    }
+
+
     const { id } = req.params;
     const presentExists = await Present.findOne({ _id: id }).populate(
         "creator",
@@ -60,6 +88,14 @@ const getPresentDetail = async (req, res) => {
 };
 
 const createPresent = async (req, res) => {
+    const token = req.headers.authorization
+    const profileObj = token ? parseJwt(token) : null;
+
+    if (!profileObj?.name){
+        req.status(401).json({ message: "Not Authorized" })
+        return
+    }
+
     try {
         const {
             title,
@@ -103,6 +139,15 @@ const createPresent = async (req, res) => {
 };
 
 const updatePresent = async (req, res) => {
+
+    const token = req.headers.authorization
+    const profileObj = token ? parseJwt(token) : null;
+
+    if (!profileObj?.name){
+        req.status(401).json({ message: "Not Authorized" })
+        return
+    }
+
     try {
         const { id } = req.params;
         const { title, description, presentType, price} =
@@ -128,6 +173,15 @@ const updatePresent = async (req, res) => {
 };
 
 const deletePresent = async (req, res) => {
+
+    const token = req.headers.authorization
+    const profileObj = token ? parseJwt(token) : null;
+
+    if (!profileObj?.name){
+        req.status(401).json({ message: "Not Authorized" })
+        return
+    }
+
     try {
         const { id } = req.params;
 

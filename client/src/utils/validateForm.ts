@@ -14,13 +14,6 @@ export const validateForm = (formValues: FormValues) => {
         }
         break;
 
-      case 'description':
-        if (!formValues.description) {
-          errors.message = 'Description is required';
-          hasError = true;
-        }
-        break;
-
       case 'presentType':
         if (!formValues.presentType) {
           errors.message = 'Present type is required';
@@ -28,20 +21,6 @@ export const validateForm = (formValues: FormValues) => {
         }
         break;
 
-      case 'link':
-        if (!formValues.link) {
-          errors.message = 'Link is required';
-          hasError = true;
-        }
-        break;
-
-
-      case 'price':
-        if (!formValues.price) {
-          errors.message = 'Price is required';
-          hasError = true;
-        }
-        break;
 
       default:
         hasError = false;
